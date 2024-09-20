@@ -4,6 +4,8 @@ public class PanTiltZoomCamera
     private int panSpeed;
     private int tiltSpeed;
     private int zoomSpeed;
+    private bool powerIsOn;
+    private ResponseBuffer responseBuffer = new ResponseBuffer();
 
     // private methods to validate fields
     private void ValidateId(int id)
@@ -276,8 +278,15 @@ public class PanTiltZoomCamera
     public string PowerInquiry(int id)
     {
         ValidateId(id)
-        // TODO
-        return "TODO";
+        y = id + 8;
+        if (powerIsOn)
+        {
+            return $"{y:X1}\x0\x50\x02\xFF";
+        }
+        else
+        {
+            return $"{y:X1}\x0\x50\x03\xFF";
+        }
     }
 
     public string PowerInquiry()
@@ -285,9 +294,19 @@ public class PanTiltZoomCamera
         return PowerInquiry(this.id);
     }
 
-    public string HandleResponse()
+    public string HandleResponse(string response_fragment)
     {
-        // TODO
-        return "TODO";
+        responseBuffer.Add(response_fragment);
+        if (responseBuffer.DelimiterFound())
+        {
+            string response = responseBuffer.ExtractResponse();
+            responseBuffer.EmptyBuffer();
+            return response;
+        }
+        else
+        {
+            responseBuffer.CheckSize();
+            return "";
+        }
     }
 }

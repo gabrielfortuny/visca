@@ -1,4 +1,4 @@
-# Implement `PanTiltZoomCamera` Public Class in C#
+# `PanTiltZoomCamera` Class
 
 ## Constructors
 1. Accepts the camera's ID and stores it into a private variable associated with the class
@@ -39,12 +39,27 @@ Note that the speeds vary depending on pan, tilt or zoom speed possible values, 
 
 Example: `\x81\x01\x04\x00\x02\xFF` would be a Power On command for a camera at ID #1. Note that these are bytes with no spaces!
 
+### Overloaded Methods
+
+Overloaded methods that do not need the speed variable and instead use the provided ones in the constructor.
+
 ### HandleResponse
 
 A feedback-parsing method called `HandleResponse` that will interpret acknowledgement, command execution, and power inquiry feedback. Use a boolean named `powerIsOn` to be set to true when the power inquiry returns true, and false when false. It will need to gather bytes together into a buffer up until it finds the first `\xFF` character and then interpret the response from there (and remove interpreted responses from the buffer). The buffer should also have some safety mechanism to clear itself if it gets "too big" (let's say > 100 chars) to avoid memory overruns.
 
 Note the ID change in the responses also -- `y = x + 8`! So an `x = 1` would show `\x90\x50\x02\xFF` for example.
 
-### Overloaded Methods
+Implement `HandleResponse` using a separate `ResponseBuffer` class:
 
-Overloaded methods that do not need the speed variable and instead use the provided ones in the constructor.
+# `ResponseBuffer` Class
+
+When a camera is given a command, it will send a response as a string. It may come all at once, or one or two bytes at a time. In any case, it will end with `\xFF`, the VISCA delimiter.
+
+We will use a string buffer variable to store the response fragments in. After every addition to the buffer, check whether the delimiter has been reached. When it has, extract the data up to and including the `\xFF` and return it as a string.
+
+Some considerations:
+- What if the triggers happen so fast that a second trigger happens while the first one is either writing to, or extracting from, the string buffer? Could we have a race condition or memory issue?
+- What if data gets stuck in the buffer? What if I receive some garbage bytes before I get my useful bytes?
+- Sometimes, some commands will trigger two responses in series: \x90\x41\xFF\x90\x51\xFF is a common pair of responses to receive. How do you make sure you extract them both if they come together, or separately?
+
+# `DataEventArgs` Class
