@@ -5523,11 +5523,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/gfortuny/work/visca/ViscaTestProject/ViscaTestProject.csproj",
-      "projectName": "ViscaTestProject",
-      "projectPath": "/home/gfortuny/work/visca/ViscaTestProject/ViscaTestProject.csproj",
+      "projectUniqueName": "/home/gfortuny/work/visca/VISCACommandSet.Tests/VISCACommandSet.Tests.csproj",
+      "projectName": "VISCACommandSet.Tests",
+      "projectPath": "/home/gfortuny/work/visca/VISCACommandSet.Tests/VISCACommandSet.Tests.csproj",
       "packagesPath": "/home/gfortuny/.nuget/packages/",
-      "outputPath": "/home/gfortuny/work/visca/ViscaTestProject/obj/",
+      "outputPath": "/home/gfortuny/work/visca/VISCACommandSet.Tests/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/gfortuny/.nuget/NuGet/NuGet.Config"

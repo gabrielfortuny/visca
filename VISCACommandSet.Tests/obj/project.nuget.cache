@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "z8ywOE0pnpDDU0V/Jp8p0ydLfknRamgmwpuEabWxNwqC2k/JTOlfJ+fWXQlLDAx2AkjlQXo8K2Qc6vqMYczX0g==",
+  "dgSpecHash": "cCaxXeLVuOVGPedMNdAxX+c0HWUoSGSzSw2fXt7yBY3Wfn+t7d4D/vcCOUgpwRaxPQf10/mRm9Mr3YByzqVTMA==",
   "success": true,
-  "projectFilePath": "/home/gfortuny/work/visca/ViscaTestProject/ViscaTestProject.csproj",
+  "projectFilePath": "/home/gfortuny/work/visca/VISCACommandSet.Tests/VISCACommandSet.Tests.csproj",
   "expectedPackageFiles": [
     "/home/gfortuny/.nuget/packages/coverlet.collector/6.0.0/coverlet.collector.6.0.0.nupkg.sha512",
     "/home/gfortuny/.nuget/packages/microsoft.codecoverage/17.6.0/microsoft.codecoverage.17.6.0.nupkg.sha512",
