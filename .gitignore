@@ -56,6 +56,9 @@ artifacts/
 *.csproj.nuget.g.targets
 *.csproj.nuget.dgspec.json
 *.csproj.nuget.cache
+CoverletSourceRootsMapping_*
+project.assets.json
+project.nuget.cache
 
 # ASP.NET Scaffolding
 ScaffoldingReadMe.txt
@@ -94,8 +97,3 @@ _Chutzpah*
 
 # Visual Studio 2019
 .vs/
-
-# ASP.NET Core
-project.lock.json
-project.fragment.lock.json
-artifacts/

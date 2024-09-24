@@ -6,11 +6,11 @@ namespace VISCACommandSet.Commands
         private int panSpeed;
         private int tiltSpeed;
         private int zoomSpeed;
-        private bool powerIsOn;
+        private bool powerIsOn = false;
         private ResponseBuffer responseBuffer = new ResponseBuffer();
 
         // private methods to validate fields
-        private void ValidateId(int id)
+        private static void ValidateId(int id)
         {
             if (id < 0x1 || id > 0xF)
             {
@@ -18,7 +18,7 @@ namespace VISCACommandSet.Commands
             }
         }
 
-        private void ValidatePanSpeed(int panSpeed)
+        private static void ValidatePanSpeed(int panSpeed)
         {
             if (panSpeed < 0x01 || panSpeed > 0x18)
             {
@@ -26,7 +26,7 @@ namespace VISCACommandSet.Commands
             }
         }
 
-        private void ValidateTiltSpeed(int tiltSpeed)
+        private static void ValidateTiltSpeed(int tiltSpeed)
         {
             if (tiltSpeed < 0x01 || tiltSpeed > 0x14)
             {
@@ -34,7 +34,7 @@ namespace VISCACommandSet.Commands
             }
         }
 
-        private void ValidateZoomSpeed(int zoomSpeed)
+        private static void ValidateZoomSpeed(int zoomSpeed)
         {
             if (zoomSpeed < 0x0 || zoomSpeed > 0x7)
             {
@@ -42,7 +42,7 @@ namespace VISCACommandSet.Commands
             }
         }
 
-        private void VerifyPresetNumber(int presetNumber)
+        private static void VerifyPresetNumber(int presetNumber)
         {
             if (presetNumber < 0x0 || presetNumber > 0xF)
             {
@@ -82,11 +82,11 @@ namespace VISCACommandSet.Commands
 
         // public methods with validation
         // Pan_tiltDrive methods
-        public string Up(int id, int panSpeed)
+        public static string Up(int id, int panSpeed)
         {
             ValidateId(id);
             ValidatePanSpeed(panSpeed);
-            return $"\x8{id:X1}\x01\x06\x01\x{panSpeed:X2}\x00\x03\x01\xFF";
+            return $"\x8{id:X1}\x01\x06\x01{Convert.ToChar(panSpeed)}\x00\x03\x01\xFF";
         }
 
         public string Up()
@@ -94,11 +94,11 @@ namespace VISCACommandSet.Commands
             return Up(this.id, this.panSpeed);
         }
 
-        public string Down(int id, int panSpeed)
+        public static string Down(int id, int panSpeed)
         {
             ValidateId(id);
             ValidatePanSpeed(panSpeed);
-            return $"\x8{id:X1}\x01\x06\x01\x{panSpeed:X2}\x00\x03\x02\xFF";
+            return $"\x8{id:X1}\x01\x06\x01{Convert.ToChar(panSpeed)}\x00\x03\x02\xFF";
         }
 
         public string Down()
@@ -106,11 +106,11 @@ namespace VISCACommandSet.Commands
             return Down(this.id, this.panSpeed);
         }
 
-        public string Left(int id, int panSpeed)
+        public static string Left(int id, int panSpeed)
         {
             ValidateId(id);
             ValidatePanSpeed(panSpeed);
-            return $"\x8{id:X1}\x01\x06\x01\x{panSpeed:X2}\x00\x01\x03\xFF";
+            return $"\x8{id:X1}\x01\x06\x01{Convert.ToChar(panSpeed)}\x00\x01\x03\xFF";
         }
 
         public string Left()
@@ -118,11 +118,11 @@ namespace VISCACommandSet.Commands
             return Left(this.id, this.panSpeed);
         }
 
-        public string Right(int id, int panSpeed)
+        public static string Right(int id, int panSpeed)
         {
             ValidateId(id);
             ValidatePanSpeed(panSpeed);
-            return $"\x8{id:X1}\x01\x06\x01\x{panSpeed:X2}\x00\x02\x03\xFF";
+            return $"\x8{id:X1}\x01\x06\x01{Convert.ToChar(panSpeed)}\x00\x02\x03\xFF";
         }
 
         public string Right()
@@ -130,12 +130,12 @@ namespace VISCACommandSet.Commands
             return Right(this.id, this.panSpeed);
         }
 
-        public string UpLeft(int id, int panSpeed, int tiltSpeed)
+        public static string UpLeft(int id, int panSpeed, int tiltSpeed)
         {
             ValidateId(id);
             ValidatePanSpeed(panSpeed);
             ValidateTiltSpeed(tiltSpeed);
-            return $"\x8{id:X1}\x01\x06\x01\x{panSpeed:X2}\x{tiltSpeed:X2}\x01\x01\xFF";
+            return $"\x8{id:X1}\x01\x06\x01{Convert.ToChar(panSpeed)}{Convert.ToChar(tiltSpeed)}\x01\x01\xFF";
         }
 
         public string UpLeft()
@@ -143,12 +143,12 @@ namespace VISCACommandSet.Commands
             return UpLeft(this.id, this.panSpeed, this.tiltSpeed);
         }
 
-        public string UpRight(int id, int panSpeed, int tiltSpeed)
+        public static string UpRight(int id, int panSpeed, int tiltSpeed)
         {
             ValidateId(id);
             ValidatePanSpeed(panSpeed);
             ValidateTiltSpeed(tiltSpeed);
-            return $"\x8{id:X1}\x01\x06\x01\x{panSpeed:X2}\x{tiltSpeed:X2}\x02\x01\xFF";
+            return $"\x8{id:X1}\x01\x06\x01{Convert.ToChar(panSpeed)}{Convert.ToChar(tiltSpeed)}\x02\x01\xFF";
         }
 
         public string UpRight()
@@ -156,12 +156,12 @@ namespace VISCACommandSet.Commands
             return UpRight(this.id, this.panSpeed, this.tiltSpeed);
         }
 
-        public string DownLeft(int id, int panSpeed, int tiltSpeed)
+        public static string DownLeft(int id, int panSpeed, int tiltSpeed)
         {
             ValidateId(id);
             ValidatePanSpeed(panSpeed);
             ValidateTiltSpeed(tiltSpeed);
-            return $"\x8{id:X1}\x01\x06\x01\x{panSpeed:X2}\x{tiltSpeed:X2}\x01\x02\xFF";
+            return $"\x8{id:X1}\x01\x06\x01{Convert.ToChar(panSpeed)}{Convert.ToChar(tiltSpeed)}\x01\x02\xFF";
         }
 
         public string DownLeft()
@@ -169,12 +169,12 @@ namespace VISCACommandSet.Commands
             return DownLeft(this.id, this.panSpeed, this.tiltSpeed);
         }
 
-        public string DownRight(int id, int panSpeed, int tiltSpeed)
+        public static string DownRight(int id, int panSpeed, int tiltSpeed)
         {
             ValidateId(id);
             ValidatePanSpeed(panSpeed);
             ValidateTiltSpeed(tiltSpeed);
-            return $"\x8{id:X1}\x01\x06\x01\x{panSpeed:X2}\x{tiltSpeed:X2}\x02\x02\xFF";
+            return $"\x8{id:X1}\x01\x06\x01{Convert.ToChar(panSpeed)}{Convert.ToChar(tiltSpeed)}\x02\x02\xFF";
         }
 
         public string DownRight()
@@ -182,7 +182,7 @@ namespace VISCACommandSet.Commands
             return DownRight(this.id, this.panSpeed, this.tiltSpeed);
         }
 
-        public string StopPanTilt(int id)
+        public static string StopPanTilt(int id)
         {
             ValidateId(id);
             return $"\x8{id:X1}\x01\x06\x01\x00\x00\x03\x03\xFF";
@@ -194,7 +194,7 @@ namespace VISCACommandSet.Commands
         }
 
         // CAM_Zoom methods
-        public string ZoomIn(int id, int zoomSpeed)
+        public static string ZoomIn(int id, int zoomSpeed)
         {
             ValidateId(id);
             ValidateZoomSpeed(zoomSpeed);
@@ -206,7 +206,7 @@ namespace VISCACommandSet.Commands
             return ZoomIn(this.id, this.zoomSpeed);
         }
 
-        public string ZoomOut(int id, int zoomSpeed)
+        public static string ZoomOut(int id, int zoomSpeed)
         {
             ValidateId(id);
             ValidateZoomSpeed(zoomSpeed);
@@ -218,7 +218,7 @@ namespace VISCACommandSet.Commands
             return ZoomOut(this.id, this.zoomSpeed);
         }
 
-        public string StopZoom(int id)
+        public static string StopZoom(int id)
         {
             ValidateId(id);
             return $"\x8{id:X1}\x01\x04\x07\x00\xFF";
@@ -230,7 +230,7 @@ namespace VISCACommandSet.Commands
         }
 
         // CAM_Memory methods
-        public string StorePreset(int id, int presetNumber)
+        public static string StorePreset(int id, int presetNumber)
         {
             ValidateId(id);
             VerifyPresetNumber(presetNumber);
@@ -242,7 +242,7 @@ namespace VISCACommandSet.Commands
             return StorePreset(this.id, presetNumber);
         }
 
-        public string RecallPreset(int id, int presetNumber)
+        public static string RecallPreset(int id, int presetNumber)
         {
             ValidateId(id);
             VerifyPresetNumber(presetNumber);
@@ -255,7 +255,7 @@ namespace VISCACommandSet.Commands
         }
 
         // CAM_Power methods
-        public string PowerOn(int id)
+        public static string PowerOn(int id)
         {
             ValidateId(id);
             return $"\x8{id:X1}\x01\x04\x00\x02\xFF";
@@ -266,7 +266,7 @@ namespace VISCACommandSet.Commands
             return PowerOn(this.id);
         }
 
-        public string PowerOff(int id)
+        public static string PowerOff(int id)
         {
             ValidateId(id);
             return $"\x8{id:X1}\x01\x04\x00\x03\xFF";
@@ -279,8 +279,8 @@ namespace VISCACommandSet.Commands
 
         public string PowerInquiry(int id)
         {
-            ValidateId(id)
-            y = id + 8;
+            ValidateId(id);
+            int y = id + 8;
             if (powerIsOn)
             {
                 return $"{y:X1}\x0\x50\x02\xFF";
@@ -298,18 +298,7 @@ namespace VISCACommandSet.Commands
 
         public string HandleResponse(string response_fragment)
         {
-            responseBuffer.Add(response_fragment);
-            if (responseBuffer.DelimiterFound())
-            {
-                string response = responseBuffer.ExtractResponse();
-                responseBuffer.EmptyBuffer();
-                return response;
-            }
-            else
-            {
-                responseBuffer.CheckSize();
-                return "";
-            }
+            return responseBuffer.Add(response_fragment);
         }
     }
 }

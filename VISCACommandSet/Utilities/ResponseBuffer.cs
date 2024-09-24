@@ -3,8 +3,8 @@ namespace VISCACommandSet.Utilities
     public class ResponseBuffer
     {
         private string buffer;
-        private int delimiter = 0xFF;
-        private int maxBufferSize = 100; // characters
+        private char delimiter = '\xFF';
+        private int maxBufferSize = 1000; // characters
 
         public ResponseBuffer()
         {
@@ -16,9 +16,10 @@ namespace VISCACommandSet.Utilities
             return buffer.Contains(delimiter);
         }
 
-        public void Add(string response_fragment)
+        public string Add(string response_fragment)
         {
             buffer += response_fragment;
+            return "TODO";
         }
 
         private void EmptyBuffer()
@@ -33,13 +34,12 @@ namespace VISCACommandSet.Utilities
             return response;
         }
 
-        private CheckSize()
+        private void CheckSize()
         {
             if (buffer.Length > maxBufferSize)
             {
-                // TODO - how do I know I'm not throwing away a partial response?
+                EmptyBuffer();
             }
         }
-
     }
 }

@@ -1,3 +1,19 @@
 {
-    "dotnet.defaultSolution": "VISCACommandSet.sln"
+    "dotnet.defaultSolution": "VISCACommandSet.sln",
+    "csharp.format.enable": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": "never"
+    },
+    "omnisharp.enableRoslynAnalyzers": true,
+    "omnisharp.enableEditorConfigSupport": true,
+    "omnisharp.enableDecompilationSupport": true,
+    "omnisharp.enableAsyncCompletion": true,
+    "omnisharp.useModernNet": true,
+    "dotnetAcquisitionExtension.existingDotnetPath": [
+        {
+            "extensionId": "msazurermtools.azurerm-vscode-tools",
+            "path": "C:\\Program Files\\dotnet\\dotnet.exe"
+        }
+    ],
+    "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": true
 }
