@@ -280,15 +280,7 @@ namespace VISCACommandSet.Commands
         public string PowerInquiry(int id)
         {
             ValidateId(id);
-            int y = id + 8;
-            if (powerIsOn)
-            {
-                return $"{y:X1}\x0\x50\x02\xFF";
-            }
-            else
-            {
-                return $"{y:X1}\x0\x50\x03\xFF";
-            }
+            return $"\x8{id:X1}\x09\x04\x00\xFF";
         }
 
         public string PowerInquiry()
