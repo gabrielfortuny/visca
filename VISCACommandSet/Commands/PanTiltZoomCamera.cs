@@ -6,7 +6,7 @@ namespace VISCACommandSet.Commands
         private int panSpeed;
         private int tiltSpeed;
         private int zoomSpeed;
-        private bool powerIsOn = false;
+        private bool powerIsOn;
         private ResponseBuffer responseBuffer = new ResponseBuffer();
 
         // private methods to validate fields
@@ -288,9 +288,9 @@ namespace VISCACommandSet.Commands
             return PowerInquiry(this.id);
         }
 
-        public string HandleResponse(string response_fragment)
+        public void HandleResponse(string response_fragment)
         {
-            return responseBuffer.Add(response_fragment);
+            responseBuffer.Add(response_fragment);
         }
     }
 }

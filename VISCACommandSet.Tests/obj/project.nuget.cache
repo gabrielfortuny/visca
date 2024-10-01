@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "WBqs7fZwURpzi5IgqAREeEtHD/QDcoCyu/ktr/zaQWPITCPYG6vEbU+KMDLtR2PvtPUKGINur+7T3KK8/bmPow==",
+  "dgSpecHash": "QSnm1+ugQt55ldQ65ew3wyRK+lRxwAAT5/DJCAhY8bsGKCJvxMNhNQx0zE9bQoOdtquuCD45e/2j0K7pNWY17w==",
   "success": true,
   "projectFilePath": "/home/gfortuny/work/visca/VISCACommandSet.Tests/VISCACommandSet.Tests.csproj",
   "expectedPackageFiles": [

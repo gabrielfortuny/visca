@@ -2,43 +2,93 @@ namespace VISCACommandSet.Utilities
 {
     public class ResponseBuffer
     {
-        private string buffer;
+        private StringBuilder buffer;
         private char delimiter = '\xFF';
-        private int maxBufferSize = 1000; // characters
+        private int maxBufferSize = 1000;
+        private static Mutex mutex = new Mutex();
 
         public ResponseBuffer()
         {
-            buffer = "";
+            buffer = new StringBuilder();
         }
 
-        public bool DelimiterFound()
+        public void Add(string responseFragment)
         {
-            return buffer.Contains(delimiter);
+            mutex.WaitOne();
+            try
+            {
+                buffer.Append(responseFragment);
+            }
+            finally
+            {
+                mutex.ReleaseMutex();
+            }
         }
 
-        public string Add(string response_fragment)
+        public List<string> ExtractResponses()
         {
-            buffer += response_fragment;
-            return "TODO";
+            // there may be multiple responses in the buffer, so we will iterate through the buffer and remove them as we find them
+            List<string> responses = new List<string>();
+
+            // mutex is used to prevent the buffer from being modified while we are iterating through it
+            mutex.WaitOne();
+            try
+            {
+                int index = 0;
+                while (index < buffer.Length)
+                {
+                    if (buffer[index] == delimiter)
+                    {
+                        // Extract the response including the delimiter
+                        string response = buffer.ToString(0, index + 1);
+                        responses.Add(response);
+
+                        // Remove the extracted response from the buffer
+                        buffer.Remove(0, index + 1);
+
+                        // Reset the index to start from the beginning of the updated buffer
+                        index = 0;
+                    }
+                    else
+                    {
+                        index++;
+                    }
+                }
+            }
+            finally
+            {
+                mutex.ReleaseMutex();
+            }
+
+            return responses;
         }
 
         private void EmptyBuffer()
         {
-            buffer = "";
-        }
-
-        public string ExtractResponse()
-        {
-            string response = buffer.Substring(0, buffer.IndexOf(delimiter));
-            EmptyBuffer();
-            return response;
+            mutex.WaitOne();
+            try
+            {
+                buffer.Clear();
+            }
+            finally
+            {
+                mutex.ReleaseMutex();
+            }
         }
 
         private void CheckSize()
         {
-            if (buffer.Length > maxBufferSize)
+            mutex.WaitOne();
+            try
             {
-                EmptyBuffer();
+                if (buffer.Length > maxBufferSize)
+                {
+                    EmptyBuffer();
+                }
+            }
+            finally
+            {
+                mutex.ReleaseMutex();
             }
         }
     }

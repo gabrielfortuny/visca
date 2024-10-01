@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "OJeom1dOxFJZDc54O4adSkUvql4Ofu5WXJJ5YrspSdkHYA1BUXMaqg/8O921V31xcGJWEUj3+WQl8axiK59Uhg==",
+  "dgSpecHash": "IF9JwqTxhb8CjNbZeOCBYgcTBoN4ttfB+0GCUekvjUeCMHKKNWg+btPgDnxC+Uf0WUZhdWeRH8kxhd2TQr4gcg==",
   "success": true,
   "projectFilePath": "/home/gfortuny/work/visca/VISCACommandSet/VISCACommandSet.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/home/gfortuny/.nuget/packages/microsoft.codecoverage/17.6.0/microsoft.codecoverage.17.6.0.nupkg.sha512"
+  ],
   "logs": []
 }

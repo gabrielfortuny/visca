@@ -1716,6 +1716,9 @@
       "VISCACommandSet/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Microsoft.CodeCoverage": "17.6.0"
+        },
         "compile": {
           "bin/placeholder/VISCACommandSet.dll": {}
         },
@@ -5526,6 +5529,7 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "Microsoft.CodeCoverage >= 17.6.0",
       "Microsoft.NET.Test.Sdk >= 17.6.0",
       "VISCACommandSet >= 1.0.0",
       "coverlet.collector >= 6.0.0",
@@ -5574,6 +5578,10 @@
       "net8.0": {
         "targetAlias": "net8.0",
         "dependencies": {
+          "Microsoft.CodeCoverage": {
+            "target": "Package",
+            "version": "[17.6.0, )"
+          },
           "Microsoft.NET.Test.Sdk": {
             "target": "Package",
             "version": "[17.6.0, )"

@@ -59,7 +59,10 @@ We will use a string buffer variable to store the response fragments in. After e
 
 Some considerations:
 - What if the triggers happen so fast that a second trigger happens while the first one is either writing to, or extracting from, the string buffer? Could we have a race condition or memory issue?
+    - Use mutexes to lock the buffer while it is being written to or read from.
 - What if data gets stuck in the buffer? What if I receive some garbage bytes before I get my useful bytes?
+    - Clear the buffer if it gets too big.
 - Sometimes, some commands will trigger two responses in series: \x90\x41\xFF\x90\x51\xFF is a common pair of responses to receive. How do you make sure you extract them both if they come together, or separately?
+    - Iterate through the buffer and extract all responses, not just one.
 
 # `DataEventArgs` Class
