@@ -402,7 +402,7 @@ FodyWeavers.xsd
 ### DotnetCore ###
 # .NET Core build folders
 bin/
-obj/
+**/obj/
 
 # Common node modules locations
 /node_modules
@@ -422,5 +422,3 @@ obj/
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/csharp,visualstudiocode,dotnetcore
-VISCACommandSet/obj/Debug/net8.0/VISCACommandSet.assets.cache
-VISCACommandSet.Tests/obj/Debug/net8.0/VISCACommandSet.Tests.assets.cache
