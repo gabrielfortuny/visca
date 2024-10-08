@@ -2,14 +2,16 @@ namespace VISCACommandSet.Utilities
 {
     public class ResponseBuffer
     {
-        private StringBuilder buffer;
-        private char delimiter = '\xFF';
-        private int maxBufferSize = 1000;
-        private static Mutex mutex = new Mutex();
+        private StringBuilder buffer = new StringBuilder();
+        private readonly char delimiter;
+        private readonly int maxBufferSize;
+        // a mutex is necessary to prevent multiple threads from modifying the buffer at the same time
+        private static readonly Mutex mutex = new Mutex();
 
-        public ResponseBuffer()
+        public ResponseBuffer(char delimiter, int maxBufferSize)
         {
-            buffer = new StringBuilder();
+            this.delimiter = delimiter;
+            this.maxBufferSize = maxBufferSize;
         }
 
         public void Add(string responseFragment)
@@ -17,6 +19,8 @@ namespace VISCACommandSet.Utilities
             mutex.WaitOne();
             try
             {
+                // empties the buffer if this addition will go over maxBufferSize
+                CheckBufferOverflow(responseFragment.Length);
                 buffer.Append(responseFragment);
             }
             finally
@@ -30,7 +34,6 @@ namespace VISCACommandSet.Utilities
             // there may be multiple responses in the buffer, so we will iterate through the buffer and remove them as we find them
             List<string> responses = new List<string>();
 
-            // mutex is used to prevent the buffer from being modified while we are iterating through it
             mutex.WaitOne();
             try
             {
@@ -39,14 +42,14 @@ namespace VISCACommandSet.Utilities
                 {
                     if (buffer[index] == delimiter)
                     {
-                        // Extract the response including the delimiter
+                        // extract the response including the delimiter
                         string response = buffer.ToString(0, index + 1);
                         responses.Add(response);
 
                         // Remove the extracted response from the buffer
                         buffer.Remove(0, index + 1);
 
-                        // Reset the index to start from the beginning of the updated buffer
+                        // reset the index to start from the beginning of the updated buffer
                         index = 0;
                     }
                     else
@@ -63,27 +66,14 @@ namespace VISCACommandSet.Utilities
             return responses;
         }
 
-        private void EmptyBuffer()
+        private void CheckBufferOverflow(int fragmentLength)
         {
             mutex.WaitOne();
             try
             {
-                buffer.Clear();
-            }
-            finally
-            {
-                mutex.ReleaseMutex();
-            }
-        }
-
-        private void CheckSize()
-        {
-            mutex.WaitOne();
-            try
-            {
-                if (buffer.Length > maxBufferSize)
+                if (buffer.Length + fragmentLength > maxBufferSize)
                 {
-                    EmptyBuffer();
+                    buffer.Clear();
                 }
             }
             finally
