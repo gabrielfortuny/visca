@@ -7,7 +7,7 @@ namespace VISCACommandSet.Commands
         private int tiltSpeed;
         private int zoomSpeed;
         private bool powerIsOn;
-        private ResponseBuffer responseBuffer = new ResponseBuffer();
+        private ResponseBuffer responseBuffer = new ResponseBuffer('\xFF', 100);
 
         // private methods to validate fields
         private static void ValidateId(int id)

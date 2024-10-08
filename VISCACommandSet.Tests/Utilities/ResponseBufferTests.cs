@@ -9,7 +9,7 @@ namespace VISCACommandSet.Tests.Utilities
         public void ExtractResponses_ShouldNotReturnIncompleteCommands()
         {
             // Arrange
-            var buffer = new ResponseBuffer();
+            var buffer = new ResponseBuffer('\xFF', 100);
             string fragment = "\x00";
 
             // Act
@@ -24,7 +24,7 @@ namespace VISCACommandSet.Tests.Utilities
         public void ExtractResponses_ShouldReturnWholeCommand()
         {
             // Arrange
-            var buffer = new ResponseBuffer();
+            var buffer = new ResponseBuffer('\xFF', 100);
 
             // Act
             buffer.Add("\x00\xFF");
@@ -39,7 +39,7 @@ namespace VISCACommandSet.Tests.Utilities
         public void ExtractResponses_ShouldReturnCombinedFragments()
         {
             // Arrange
-            var buffer = new ResponseBuffer();
+            var buffer = new ResponseBuffer('\xFF', 100);
 
             // Act
             buffer.Add("\x00");
@@ -55,7 +55,7 @@ namespace VISCACommandSet.Tests.Utilities
         public void ExtractResponses_ShouldReturnMultipleCommands()
         {
             // Arrange
-            var buffer = new ResponseBuffer();
+            var buffer = new ResponseBuffer('\xFF', 100);
 
             // Act
             buffer.Add("\x00\xFF\x00\xFF");
@@ -71,7 +71,7 @@ namespace VISCACommandSet.Tests.Utilities
         public void ExtractResponses_ShouldReturnMultipleCommandsInMultipleFragments()
         {
             // Arrange
-            var buffer = new ResponseBuffer();
+            var buffer = new ResponseBuffer('\xFF', 100);
 
             // Act
             buffer.Add("\x00");
@@ -91,7 +91,7 @@ namespace VISCACommandSet.Tests.Utilities
         public void ExtractResponse_ShouldIgnoreIncompleteCommands()
         {
             // Arrange
-            var buffer = new ResponseBuffer();
+            var buffer = new ResponseBuffer('\xFF', 100);
 
             // Act
             buffer.Add("\x00\xFF\x00");
