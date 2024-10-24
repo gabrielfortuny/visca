@@ -277,7 +277,7 @@ namespace VISCACommandSet.Commands
             return PowerOff(this.id);
         }
 
-        public string PowerInquiry(int id)
+        public static string PowerInquiry(int id)
         {
             ValidateId(id);
             return $"\x8{id:X1}\x09\x04\x00\xFF";
