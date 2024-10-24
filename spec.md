@@ -72,7 +72,7 @@ Some considerations:
 - Sometimes, some commands will trigger two responses in series: \x90\x41\xFF\x90\x51\xFF is a common pair of responses to receive. How do you make sure you extract them both if they come together, or separately?
   - Iterate through the buffer and extract all responses, not just one.
 
-## `EventArgs`, `DataEventArgs` Classes
+## `DataEventArgs` Class
 
 During communication between devices via a physical port, data bytes will be streaming in both direfctions. The control program alerts us when data bytes are received, and what those data bytes are. The alert object from the hardware device running the control problem is an **event**, and the data received are the **`EventArgs`** (arguments). The `EventArgs` will contain as a field the received bytes. The bytes are then added to the `ResponseBuffer` until we get a complete message. Once we have a complete message, we will transmit it to other parts of the program for interpretation via our own event.
 

@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices.Marshalling;
+
 namespace VISCACommandSet.Utilities
 {
     public class ResponseBuffer
@@ -7,6 +9,7 @@ namespace VISCACommandSet.Utilities
         private readonly int maxBufferSize;
         // a mutex is necessary to prevent multiple threads from modifying the buffer at the same time
         private static readonly Mutex mutex = new Mutex();
+        public event EventHandler<DataEventArgs>? ResponseReceived;
 
         public ResponseBuffer(char delimiter, int maxBufferSize)
         {
@@ -19,9 +22,10 @@ namespace VISCACommandSet.Utilities
             mutex.WaitOne();
             try
             {
-                // empties the buffer if this addition will go over maxBufferSize
                 CheckBufferOverflow(responseFragment.Length);
                 buffer.Append(responseFragment);
+                List<string> responses = ExtractResponses();
+                RaiseEvents(responses);
             }
             finally
             {
@@ -29,7 +33,7 @@ namespace VISCACommandSet.Utilities
             }
         }
 
-        public List<string> ExtractResponses()
+        internal List<string> ExtractResponses()
         {
             // there may be multiple responses in the buffer, so we will iterate through the buffer and remove them as we find them
             List<string> responses = new List<string>();
@@ -66,6 +70,7 @@ namespace VISCACommandSet.Utilities
             return responses;
         }
 
+        // empties the buffer if this addition will go over maxBufferSize
         private void CheckBufferOverflow(int fragmentLength)
         {
             mutex.WaitOne();
@@ -79,6 +84,18 @@ namespace VISCACommandSet.Utilities
             finally
             {
                 mutex.ReleaseMutex();
+            }
+        }
+
+        // raises a ResponseReceived event for each response in the list
+        private void RaiseEvents(List<string> responses)
+        {
+            foreach (string response in responses)
+            {
+                if (ResponseReceived != null)
+                {
+                    ResponseReceived.Invoke(this, new DataEventArgs(response));
+                }
             }
         }
     }

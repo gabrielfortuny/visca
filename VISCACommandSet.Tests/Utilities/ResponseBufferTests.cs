@@ -5,6 +5,19 @@ namespace VISCACommandSet.Tests.Utilities
 {
     public class ResponseBufferTests
     {
+
+        // Helper class to capture events for assertion
+        private class EventCapture
+        {
+            public List<string> CapturedResponses { get; } = new List<string>();
+
+            // Event handler to capture the event data
+            public void OnResponseReceived(object? sender, DataEventArgs e)
+            {
+                CapturedResponses.Add(e.CompleteMessage);
+            }
+        }
+
         [Fact]
         public void ExtractResponses_ShouldNotReturnIncompleteCommands()
         {

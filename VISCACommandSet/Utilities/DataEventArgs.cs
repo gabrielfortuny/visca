@@ -1,14 +1,14 @@
+using System;
+
 namespace VISCACommandSet.Utilities
 {
     public class DataEventArgs : EventArgs
     {
-        public string Data { get; }
+        public string CompleteMessage { get; }
 
-        public DataEventArgs(string data)
+        public DataEventArgs(string message)
         {
-            this.Data = data;
+            CompleteMessage = message;
         }
-
-        
     }
 }

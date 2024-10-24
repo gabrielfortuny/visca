@@ -62,6 +62,7 @@ namespace VISCACommandSet.Commands
             this.panSpeed = panSpeed;
             this.tiltSpeed = tiltSpeed;
             this.zoomSpeed = zoomSpeed;
+            responseBuffer.ResponseReceived += OnResponseReceived;
         }
 
         // constructors
@@ -288,7 +289,12 @@ namespace VISCACommandSet.Commands
             return PowerInquiry(this.id);
         }
 
-        public void HandleResponse(string response_fragment)
+        private void OnResponseReceived(object? sender, DataEventArgs e)
+        {
+            HandleResponse(e.CompleteMessage);
+        }
+
+        private void HandleResponse(string response_fragment)
         {
             responseBuffer.Add(response_fragment);
         }
